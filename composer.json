@@ -1,0 +1,19 @@
+{
+    "name": "lassehaslev/image",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lasse S. Haslev",
+            "email": "lasse@haslev.no"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "phpunit/phpunit": "5.4.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "LasseHaslev\\Image": "src/"
+        }
+    }
+}
