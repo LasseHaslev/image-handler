@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Images\Handlers;
+namespace LasseHaslev\Image\Handlers;
 
 use App\Modules\Images\Image;
 use App\Http\Controllers\Controller;

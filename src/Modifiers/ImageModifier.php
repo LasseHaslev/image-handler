@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Images\Modifiers;
+namespace LasseHaslev\Image\Modifiers;
 
 use Exception;
 use Illuminate\Support\Facades\File;
@@ -375,18 +375,5 @@ class ImageModifier
         imagedestroy( $this->image );
         return $this;
     }
-
-    /**
-     * Get the image response for displayting images (Laravel)
-     *
-     * @return Illuminate\Support\Facades\Response;
-     */
-    public function getResponse( $filePath )
-    {
-        $file = File::get( $filePath );
-        return response( $file, 200 )
-            ->header( 'Content-Type', $this->mimeType() );
-    }
-
 
 }

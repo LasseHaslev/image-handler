@@ -12,8 +12,8 @@
         "phpunit/phpunit": "5.4.*"
     },
     "autoload": {
-        "psr-0": {
-            "LasseHaslev\\Image": "src/"
+        "psr-4": {
+            "LasseHaslev\\Image\\": "src/"
         }
     }
 }
