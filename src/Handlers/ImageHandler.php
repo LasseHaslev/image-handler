@@ -11,6 +11,9 @@ use LasseHaslev\Image\Modifiers\ImageModifier;
 class ImageHandler extends ImageModifier
 {
 
+    /**
+     * Folder where the crops should be saved
+     */
     protected $cropsFolder;
 
     /**
@@ -21,6 +24,19 @@ class ImageHandler extends ImageModifier
     public static function create( $path, $cropsFolder = null )
     {
         return new static( $path, $cropsFolder );
+    }
+
+    /**
+     * @param string $originalImagePath
+     */
+    public function __construct( $originalImagePath, $cropsFolder )
+    {
+
+        // Set cropsFolder or get the directory of $originalImagePath
+        $this->cropsFolder = $cropsFolder ?: dirname( $originalImagePath );
+
+        parent::__construct( $originalImagePath );
+
     }
 
     /**
@@ -44,19 +60,6 @@ class ImageHandler extends ImageModifier
         $this->cropsFolder = $cropsFolder;
 
         return $this;
-    }
-
-
-    /**
-     * @param string $originalImagePath
-     */
-    public function __construct( $originalImagePath, $cropsFolder )
-    {
-
-        $this->cropsFolder = $cropsFolder;
-
-        parent::__construct( $originalImagePath );
-
     }
 
     /**
@@ -97,5 +100,28 @@ class ImageHandler extends ImageModifier
         // Return $this for chaning
         return $this;
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function save($path = null)
+    {
+        var_dump( 'test' );
+        return null;
+    }
+
+    /**
+     * Create filename based on crop and resize information
+     *
+     * @return String
+     */
+    protected function createFileName()
+    {
+        return null;
+    }
+
+
 
 }

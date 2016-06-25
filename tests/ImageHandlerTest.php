@@ -31,11 +31,33 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $this->modifier->destroy();
     }
 
+    /**
+     * Check if cropps folder gets set
+     * automaticly
+     */
+    function test_if_crops_folder_automaticly_get_set()
+    {
+        $this->assertEquals( dirname( $this->imagePath ), $this->modifier->getCropsFolder() );
+    }
+
+    /**
+     * Can get and set crops folder
+     */
+    function test_get_set_crops_folder()
+    {
+        $folderName = __DIR__ . '/new-folder';
+        $this->modifier->setCropsFolder( $folderName );
+        $folder = $this->modifier->getCropsFolder();
+        $this->assertEquals( $folderName, $folder );
+    }
+
     /*
      * Can save images in same folder
      */
     public function test_save_images_in_same_folder()
     {
+        // $this->modifier->cropToFit( 50,50 )
+            // ->save();
     }
 
     /*
@@ -43,6 +65,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_save_images_in_different_folder()
     {
+        $this->modifier->setCropsFolder( __DIR__ . '/../images/tests' );
     }
 
     /*
