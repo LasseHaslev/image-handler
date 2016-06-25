@@ -21,16 +21,16 @@ class ImageModifier
      *
      * @return ImageModifier instance
      */
-    public static function create( $path, $options = [] )
+    public static function create( $path )
     {
-        return new static( $path, $options );
+        return new static( $path );
     }
 
 
     /**
      * @param string $originalImagePath
      */
-    public function __construct($originalImagePath, $data = [])
+    public function __construct( $originalImagePath )
     {
         $this->originalImagePath = $originalImagePath;
 
@@ -322,46 +322,6 @@ class ImageModifier
         $this->image = $res;
 
         // Return $this for chaining
-        return $this;
-    }
-
-    /**
-     * Quickly remove crops
-     *
-     * @return $instance
-     */
-    public static function deleteCrops( $originalFilePath )
-    {
-        $self = static::create( $originalFilePath );
-        return $self->removeCrops();
-    }
-
-
-    /**
-     * Reset all created crops for the image
-     *
-     * @return $this
-     */
-    public function removeCrops()
-    {
-
-        // Get original file name
-        $justTheName = pathinfo($this->originalImagePath, PATHINFO_FILENAME);
-
-        // Get the directory of where all the files are
-        $dir = dirname( $this->originalImagePath );
-
-        // Get all the files to remove
-        $filesToRemove = glob( sprintf( '%s/%s-*', $dir, $justTheName ) );
-
-        // Delete the crops from list
-        foreach($filesToRemove as $file){ // iterate files
-            // Check if this is a file
-            if(is_file($file))
-                unlink($file); // delete file
-        }
-
-        // Return $this for chaning
         return $this;
     }
 
