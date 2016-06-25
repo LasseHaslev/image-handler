@@ -44,7 +44,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
      */
     public function test_save_image()
     {
-        $this->modifier->save( __DIR__ . '/../images/tests/test-image.jpg' );
+        $this->modifier->save( __DIR__ . '/../images/tests/modifier-test-image.jpg' );
     }
 
     /**
@@ -69,7 +69,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     public function test_image_resize()
     {
         $this->modifier->resize( 100, 100 )
-            ->save( __DIR__ . '/../images/tests/test-image-100x100-resize.jpg' );
+            ->save( __DIR__ . '/../images/tests/modifier-test-image-100x100-resize.jpg' );
     }
 
     /**
@@ -78,9 +78,9 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     public function test_resize_with_one_unknown_size()
     {
         $this->modifier->resize( null, 100 )
-            ->save( __DIR__ . '/../images/tests/test-image-_x100.jpg' );
+            ->save( __DIR__ . '/../images/tests/modifier-test-image-_x100.jpg' );
         $this->modifier->resize( 100, null )
-            ->save( __DIR__ . '/../images/tests/test-image-100x_.jpg' );
+            ->save( __DIR__ . '/../images/tests/modifier-test-image-100x_.jpg' );
     }
 
     /**
@@ -89,7 +89,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     public function test_crop_image()
     {
         $this->modifier->crop( 500,500, 1500,1500 )
-            ->save( __DIR__ . '/../images/tests/test-image-500,1500x500,1500-cropped.jpg' );
+            ->save( __DIR__ . '/../images/tests/modifier-test-image-500,1500x500,1500-cropped.jpg' );
     }
 
     /**
@@ -98,7 +98,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     public function test_crop_to_square()
     {
         $this->modifier->cropToFit( 100,100 )
-            ->save( __DIR__ . '/../images/tests/test-image-100x100.jpg' );
+            ->save( __DIR__ . '/../images/tests/modifier-test-image-100x100.jpg' );
     }
 
     /**
@@ -107,7 +107,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     public function test_crop_with_focus_point()
     {
         $this->modifier->cropToFit( 100,100, 1, 1 )
-            ->save( __DIR__ . '/../images/tests/test-image-100x100-focuspoint.jpg' );
+            ->save( __DIR__ . '/../images/tests/modifier-test-image-100x100-focuspoint.jpg' );
     }
 
     /**
