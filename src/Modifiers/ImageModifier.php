@@ -336,4 +336,24 @@ class ImageModifier
         return $this;
     }
 
+    /**
+     * Getter for width
+     *
+     * return Integer
+     */
+    public function getWidth()
+    {
+        return imagesx( $this->image );
+    }
+
+    /**
+     * Getter for height
+     *
+     * return Integer
+     */
+    public function getHeight()
+    {
+        return imagesy( $this->image );
+    }
+
 }

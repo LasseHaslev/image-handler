@@ -64,15 +64,6 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     }
 
     /*
-     * Check if we can instantiate the Image modifier
-     */
-    public function test_image_instantiate()
-    {
-        $this->assertTrue( true );
-    }
-
-
-    /*
      * Check if we can resize image
      */
     public function test_image_resize()
@@ -120,11 +111,12 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Delete crops
+     * Get width and height
      */
-    public function test_delete_crops()
+    public function test_get_width_and_height()
     {
-        return null;
+        $this->assertInternalType( 'int', $this->modifier->getWidth() );
+        $this->assertInternalType( 'int', $this->modifier->getHeight() );
     }
 
 }
