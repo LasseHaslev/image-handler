@@ -17,6 +17,13 @@ class ImageHandler extends ImageModifier
     protected $cropsFolder;
 
     /**
+     * Image information sets when handling image
+     */
+    protected $setWidth;
+    protected $setHeight;
+    protected $isResized = false;
+
+    /**
      * Quickly create a new instance
      *
      * @return ImageModifier instance
@@ -108,20 +115,35 @@ class ImageHandler extends ImageModifier
      */
     public function save($path = null)
     {
-        var_dump( 'test' );
-        return null;
+        // var_dump( [ $this->getWidth(), $this->getHeight() ] );
+        $path = $path ?: sprintf( '%s/%s', $this->cropsFolder, $this->buildImageName() );
+
+        if ($path == $this->originalImagePath) {
+            throw new \Exception( 'You are not allowed to overwrite original image. Select another save path.' );
+        }
+
+        // var_dump( $path );
+        parent::save( $path );
     }
 
     /**
      * Create filename based on crop and resize information
+     * Build the image name ( {name}-{width}x{height}-resize
      *
      * @return String
      */
-    protected function createFileName()
+    protected function buildImageName()
     {
-        return null;
+
+        // Modify values
+        $width = $this->setWidth ? $this->getWidth() : '_';
+        $height = $this->setHeight ? $this->getHeight() : '_';
+        $resize = $this->isResized && ( $width != '_' || $width != '_' ) ? '-resize' : '';
+
+        $replaceString = sprintf( '$1-%sx%s%s$2', $width, $height, $resize ); // $1 = filename and $2 = extension
+        // var_dump( $replaceString );
+        return preg_replace( '/^([A-z0-9\-\_]+)(\.[A-z]+)$/', $replaceString, basename( $this->originalImagePath ) );
+        // return $this->cropsFolder
     }
-
-
 
 }

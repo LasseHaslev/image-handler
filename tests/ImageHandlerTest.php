@@ -51,13 +51,31 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $folderName, $folder );
     }
 
+    /**
+     * Prevent overwrite of original
+     */
+    function test_cannot_overwrite_original_image()
+    {
+        $this->setExpectedException('Exception');
+        $this->modifier->cropToFit( 100, 100 )
+            ->save( $this->imagePath );
+    }
+
+    /*
+     * Add custom filename on save
+     */
+    public function test_custom_filename_on_save()
+    {
+        // $this->modifier->setCropsFolder( __DIR__ . '/../images/tests' );
+        // $this->modifier->cropToFit( 100, 100 )
+            // ->save();
+    }
+
     /*
      * Can save images in same folder
      */
     public function test_save_images_in_same_folder()
     {
-        // $this->modifier->cropToFit( 50,50 )
-            // ->save();
     }
 
     /*
@@ -65,7 +83,6 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_save_images_in_different_folder()
     {
-        $this->modifier->setCropsFolder( __DIR__ . '/../images/tests' );
     }
 
     /*
