@@ -123,7 +123,13 @@ class ImageHandler extends ImageModifier
         }
 
         // var_dump( $path );
-        parent::save( $path );
+        $returnValue = parent::save( $path );
+
+        // Reset
+        $this->resetImageObject();
+
+        // Return $this-> from parent
+        return $returnValue;
     }
 
     /**
@@ -136,14 +142,30 @@ class ImageHandler extends ImageModifier
     {
 
         // Modify values
-        $width = $this->setWidth ? $this->getWidth() : '_';
-        $height = $this->setHeight ? $this->getHeight() : '_';
-        $resize = $this->isResized && ( $width != '_' || $width != '_' ) ? '-resize' : '';
+        $width = $this->setWidth ?: '_';
+        $height = $this->setHeight ?: '_';
+        $resize = $this->isResized && !( $width == '_' || $height == '_' ) ? '-resize' : '';
 
         $replaceString = sprintf( '$1-%sx%s%s$2', $width, $height, $resize ); // $1 = filename and $2 = extension
         // var_dump( $replaceString );
         return preg_replace( '/^([A-z0-9\-\_]+)(\.[A-z]+)$/', $replaceString, basename( $this->originalImagePath ) );
         // return $this->cropsFolder
     }
+
+    /**
+     * Set $setWidth and $setHeight before resizing the GD
+     *
+     * @return static
+     */
+    public function resize($width = null, $height = null)
+    {
+
+        $this->setWidth = $width;
+        $this->setHeight = $height;
+        $this->isResized = true;
+
+        return parent::resize( $width, $height );
+    }
+
 
 }

@@ -62,13 +62,21 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     /*
-     * Add custom filename on save
+     * Add custom filename on resize save
      */
-    public function test_custom_filename_on_save()
+    public function test_custom_filename_on_resize()
     {
-        // $this->modifier->setCropsFolder( __DIR__ . '/../images/tests' );
-        // $this->modifier->cropToFit( 100, 100 )
-            // ->save();
+        $this->modifier->resize( 100, 100 )
+            ->save();
+        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x100-resize.jpg' );
+
+        $this->modifier->resize( null, 100 )
+            ->save();
+        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-_x100.jpg' );
+
+        $this->modifier->resize( 100, null )
+            ->save();
+        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x_.jpg' );
     }
 
     /*

@@ -39,6 +39,22 @@ class ImageModifier
     }
 
     /**
+     * Reset image object to originalImagePath
+     *
+     * @return static
+     */
+    public function resetImageObject()
+    {
+
+        $this->destroy();
+
+        $this->createImageObject();
+
+        return $this;
+    }
+
+
+    /**
      * Get the mime type of the working image
      *
      * @return String
@@ -237,7 +253,7 @@ class ImageModifier
      *
      * @return $this
      */
-    public function resize( $width, $height )
+    public function resize( $width = null, $height = null )
     {
 
         // Get the source width and height

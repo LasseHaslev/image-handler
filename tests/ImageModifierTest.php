@@ -18,6 +18,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
+        // Throw error if originalFilePath does not exist
         $this->imagePath = __DIR__ . '/../images/test-image.jpg';
         $this->modifier = ImageModifier::create( $this->imagePath );
     }
