@@ -167,5 +167,21 @@ class ImageHandler extends ImageModifier
         return parent::resize( $width, $height );
     }
 
+    /**
+     * Set properties after resize function
+     * overwrite them
+     */
+    public function cropToFit($width, $height, $focusPointX = 0, $focusPointY = 0) {
+
+        // Run parent functions
+        $returnValue = parent::cropToFit($width, $height, $focusPointX, $focusPointY);
+
+        // Set properties
+        $this->setWidth = $width;
+        $this->setHeight = $height;
+        $this->isResized = false;
+
+        return $returnValue;
+    }
 
 }

@@ -62,9 +62,9 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     /*
-     * Add custom filename on resize save
+     * Add custom filename on save without parameter
      */
-    public function test_custom_filename_on_resize()
+    public function test_custom_filename_on_save_without_parameter()
     {
         $this->modifier->resize( 100, 100 )
             ->save();
@@ -77,6 +77,10 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $this->modifier->resize( 100, null )
             ->save();
         $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x_.jpg' );
+
+        $this->modifier->cropToFit( 100, 100 )
+            ->save();
+        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x100.jpg' );
     }
 
     /*
