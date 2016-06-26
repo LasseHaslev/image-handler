@@ -9,6 +9,17 @@ namespace LasseHaslev\Image\Adaptors;
 class FilenameAdaptor implements CropAdaptorInterface
 {
 
+    protected $filename;
+
+    /**
+     * @param mixed $filename
+     */
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+    }
+
+
     /**
      * Prepare what we want to do with the image
      *
@@ -16,7 +27,13 @@ class FilenameAdaptor implements CropAdaptorInterface
      */
     public function transform()
     {
-
+        $data = $this->getData( $this->filename );
+        return [
+            'filename'=>$this->filename,
+            'width'=>$data[ 'width' ],
+            'height'=>$data[ 'height' ],
+            'resize'=>$data[ 'resize' ],
+        ];
     }
 
 
@@ -25,12 +42,12 @@ class FilenameAdaptor implements CropAdaptorInterface
      *
      * @return Array
      */
-    protected function getData( $url )
+    protected function getData( $filename )
     {
 
         $matches = [];
 
-        preg_match( '/([A-z0-9\-]+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*(\..+)$/', basename( $url ), $matches );
+        preg_match( '/([A-z0-9\-]+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*(\..+)$/', basename( $filename ), $matches );
 
         return [
             'name'=>$matches[ 1 ], // Name
@@ -41,8 +58,8 @@ class FilenameAdaptor implements CropAdaptorInterface
 
             'resize'=>$matches[ 4 ] == '-resize', // Resize
             'extension'=>$matches[ 5 ], // Extension
-            'fileName'=>$matches[ 1 ] . $matches[ 5 ], // Extension
-            'fullFileName'=>dirname($url) . '/' . $matches[ 1 ] . $matches[ 5 ], // Extension
+            'filename'=>$matches[ 1 ] . $matches[ 5 ], // Extension
+            'fullFileName'=>dirname($filename) . '/' . $matches[ 1 ] . $matches[ 5 ], // Extension
         ];
 
     }
