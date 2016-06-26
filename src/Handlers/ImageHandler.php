@@ -3,6 +3,8 @@
 namespace LasseHaslev\Image\Handlers;
 
 use LasseHaslev\Image\Modifiers\ImageModifier;
+use LasseHaslev\Image\Adaptors\UrlAdaptor;
+use LasseHaslev\Image\Adaptors\CropAdaptorInterface;
 
 /**
  * Class ImageHandler
@@ -104,6 +106,49 @@ class ImageHandler extends ImageModifier
         // Return $this for chaning
         return $this;
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function useAdaptor( CropAdaptorInterface $adaptor )
+    {
+
+        $adaptorTransformValue = $adaptor->transform();
+
+        // Make shure the adaptor@transform returns array
+        if ( ! is_array( $adaptorTransformValue ) ) {
+            throw new \Exception( 'The returntype of the transform function in the adaptor need to return an array.' );
+        }
+
+        // Overwrite default data with adaptor
+        $data = array_merge( [
+            'filename'=>null,
+            'width'=>null,
+            'height'=>null,
+            'resize'=>false,
+        ], $adaptorTransformValue );
+
+        // Throw error if filename is not set
+        if ( ! $data[ 'filename' ] ) throw new \Exception( 'You need to set a filename in adaptor' );
+
+        // Throw error if both width and height is null
+        if ( ! $data[ 'width' ] && ! $data[ 'height' ] ) throw new \Exception( 'The width or the height need to be set' );
+
+        // Check if we should resize or crop
+        // If one of the width or height is _ This is still a resize
+        if ( $data[ 'resize' ] || ( !$data[ 'width' ] || !$data[ 'height' ] ) ) {
+            $this->resize( $data[ 'width' ], $data[ 'height' ] );
+        }
+        else {
+            $this->cropToFit( $data[ 'width' ], $data[ 'height' ] );
+        }
+
+        // Save the new image and return the response as image
+        $this->save( $data[ 'filename' ] );
+    }
+
 
     /**
      * undocumented function

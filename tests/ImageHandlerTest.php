@@ -1,6 +1,7 @@
 <?php
 
 use LasseHaslev\Image\Handlers\ImageHandler;
+use LasseHaslev\Image\Adaptors\FilenameAdaptor;
 
 /**
  * Class DontKnowTest
@@ -105,6 +106,18 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $this->test_save_images_in_different_folder();
         $this->modifier->removeCrops();
     }
+
+    /**
+     * Check if we can use an adaptor to handle resizing of image
+     *
+     * @return void
+     */
+    public function test_can_handle_image_with_adaptor()
+    {
+        $adaptor = new FilenameAdaptor( 'test-image-160x160-resize.jpg' );
+        $this->modifier->useAdaptor( $adaptor );
+    }
+
 
     /*
      * Can remove crops from static function
