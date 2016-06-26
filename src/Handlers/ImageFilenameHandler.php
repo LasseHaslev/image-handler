@@ -83,24 +83,8 @@ class ImageFilenameHandler
             ->save( $newFile )
             ->destroy();
 
-        // Display Image
-        return $this;
+        return $newFile;
 
-        var_dump( [
-            $name,
-            $width,
-            $height,
-            $resize,
-            $extension,
-            $fileName,
-            $fullFileName,
-        ] );
-
-        // Get the image object
-        // $image = Image::where( 'path', $name . $extension )
-            // ->first();
-
-        // return $this->handle( $image, $width, $height, $resize );
     }
 
     /**

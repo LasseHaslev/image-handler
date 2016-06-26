@@ -40,7 +40,7 @@ class ImageUrlHandler
     public function handle( $url )
     {
 
-        $this->imageHandler->handle( $this->folderToBeRelativeTo . $url );
+        return $this->imageHandler->handle( $this->folderToBeRelativeTo . $url );
 
     }
 
