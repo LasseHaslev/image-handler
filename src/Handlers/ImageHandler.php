@@ -74,9 +74,9 @@ class ImageHandler extends ImageModifier
      *
      * @return $instance
      */
-    public static function deleteCrops( $originalFilePath )
+    public static function deleteCrops( $originalFilePath, $cropsFolder = null )
     {
-        $self = static::create( $originalFilePath );
+        $self = static::create( $originalFilePath, $cropsFolder );
         return $self->removeCrops();
     }
 

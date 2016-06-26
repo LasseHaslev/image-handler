@@ -103,6 +103,8 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $this->modifier->resize( 160, 160 )
             ->save();
         $this->assertFileExists( $cropsFolder . '/test-image-160x160-resize.jpg' );
+
+        return $cropsFolder;
     }
 
     /*
@@ -119,12 +121,32 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     /*
      * Can remove crops from different folder
      */
-    public function test_remove_crops_in_different_folder()
+    public function test_remove_crops_in_crops_folder()
     {
         // Make sure we have crops in folder
         $this->test_save_images_in_different_folder();
 
         $this->modifier->removeCrops();
+    }
+
+    /*
+     * Can remove crops from static function
+     */
+    public function test_remove_crops_from_static_function()
+    {
+        // Make sure we have crops in folder
+        // $this->test_custom_filename_on_save_without_parameter();
+        // ImageHandler::deleteCrops( $this->imagePath );
+    }
+
+    /*
+     * Can remove crops from static function in different folder
+     */
+    public function test_remove_crops_in_different_folder_from_static_function()
+    {
+        // Make sure we have crops in folder
+        // $cropsFolder = $this->test_save_images_in_different_folder();
+        // ImageHandler::deleteCrops( $this->imagePath, $cropsFolder );
     }
 
 }
