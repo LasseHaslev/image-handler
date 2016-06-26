@@ -45,6 +45,11 @@ class ImageFilenameHandler
     public function handle( $newFile, $folderToFindOriginalImage = null )
     {
 
+        // If the file already exists we just return
+        if ( file_exists( $newFile ) ) {
+            return $this;
+        }
+
         // Get data
         $data = $this->getData( $newFile );
         $name = $data['name'];
@@ -55,13 +60,12 @@ class ImageFilenameHandler
         $fileName = $data['fileName'];
         $fullFileName = $data['fullFileName'];
 
-        // If the file already exists we just return
-        if ( file_exists( $newFile ) ) {
-            return $this;
-        }
+        // Build path to original object
+        $folderToFindOriginalImage = $folderToFindOriginalImage ?: dirname( $newFile );
+        $originalImage = sprintf( '%s/%s', $folderToFindOriginalImage, $fileName );
 
         // Instansiate image handler
-        $this->handler = ImageHandler::create( $fullFileName );
+        $this->handler = ImageHandler::create( $originalImage );
 
         // Check if we should resize or crop
         // If one of the width or height is _ This is still a resize

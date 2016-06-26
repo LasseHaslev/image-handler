@@ -59,19 +59,15 @@ class ImageFilenameHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists( $filename );
     }
 
-    // Check if we can save based on just filename
-    // Check if we can save based on full path
-    // Check if we can save crop based on original in other folder
-    // Check if we can resize
-    // Check if we can resize with unknown
-    // Check if we can crop
-
     /**
-     * Handle file based on filename
+     * Check if we can save crop based on original in other folder
      */
-    // function test()
-    // {
-    // }
-
+    function test_resize_by_filename_with_original_in_other_folder()
+    {
+        $originalFolder = dirname( $this->imagePath );
+        $filename = $originalFolder . '/tests/test-image-600x600-resize.jpg';
+        $this->fileHandler->handle( $filename, $originalFolder );
+        $this->assertFileExists( $filename );
+    }
 
 }
