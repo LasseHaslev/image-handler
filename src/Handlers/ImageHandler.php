@@ -36,13 +36,13 @@ class ImageHandler extends ImageModifier
     /**
      * @param string $originalImagePath
      */
-    public function __construct( $originalImagePath, $cropsFolder )
+    public function __construct( $originalImagePath, $cropsFolder = null )
     {
 
         // Set cropsFolder or get the directory of $originalImagePath
         $this->cropsFolder = $cropsFolder ?: dirname( $originalImagePath );
 
-        parent::__construct( $originalImagePath );
+        return parent::__construct( $originalImagePath );
 
     }
 
@@ -110,10 +110,11 @@ class ImageHandler extends ImageModifier
      *
      * @return void
      */
-    public function save($path = null)
+    public function save($path)
     {
         // var_dump( [ $this->getWidth(), $this->getHeight() ] );
-        $path = $path ?: sprintf( '%s/%s', $this->cropsFolder, $this->buildImageName() );
+        $path = sprintf( '%s/%s', $this->cropsFolder, basename( $path ) );
+
 
         if ($path == $this->originalImagePath) {
             throw new \Exception( 'You are not allowed to overwrite original image. Select another save path.' );
@@ -126,58 +127,6 @@ class ImageHandler extends ImageModifier
         $this->resetImageObject();
 
         // Return $this-> from parent
-        return $returnValue;
-    }
-
-    /**
-     * Create filename based on crop and resize information
-     * Build the image name ( {name}-{width}x{height}-resize
-     *
-     * @return String
-     */
-    protected function buildImageName()
-    {
-
-        // Modify values
-        $width = $this->setWidth ?: '_';
-        $height = $this->setHeight ?: '_';
-        $resize = $this->isResized && !( $width == '_' || $height == '_' ) ? '-resize' : '';
-
-        $replaceString = sprintf( '$1-%sx%s%s$2', $width, $height, $resize ); // $1 = filename and $2 = extension
-        // var_dump( $replaceString );
-        return preg_replace( '/^([A-z0-9\-\_]+)(\.[A-z]+)$/', $replaceString, basename( $this->originalImagePath ) );
-        // return $this->cropsFolder
-    }
-
-    /**
-     * Set $setWidth and $setHeight before resizing the GD
-     *
-     * @return static
-     */
-    public function resize($width = null, $height = null)
-    {
-
-        $this->setWidth = $width;
-        $this->setHeight = $height;
-        $this->isResized = true;
-
-        return parent::resize( $width, $height );
-    }
-
-    /**
-     * Set properties after resize function
-     * overwrite them
-     */
-    public function cropToFit($width, $height, $focusPointX = 0, $focusPointY = 0) {
-
-        // Run parent functions
-        $returnValue = parent::cropToFit($width, $height, $focusPointX, $focusPointY);
-
-        // Set properties
-        $this->setWidth = $width;
-        $this->setHeight = $height;
-        $this->isResized = false;
-
         return $returnValue;
     }
 

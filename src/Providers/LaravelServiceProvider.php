@@ -16,8 +16,11 @@ class LaravelServiceProvider extends ServiceProvider
 
         $router = $this->app[ 'router' ];
 
-        $router->get( '{path}', $this->handleUrl )
-            ->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$' );
+        $router->get( '{path}', function( $url ) {
+            $cropHandler = new ImageCropHandler;
+            return $cropHandler->handleUrl( $url )
+                ->getResponse();
+        } )->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$' );
     }
 
     /**
@@ -37,9 +40,6 @@ class LaravelServiceProvider extends ServiceProvider
      */
     public function handleUrl( $url )
     {
-        $cropHandler = new ImageCropHandler;
-        return $cropHandler->handleUrl( $url )
-            ->getResponse();
     }
 
     /**

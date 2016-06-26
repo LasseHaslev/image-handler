@@ -62,34 +62,12 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     /*
-     * Add custom filename on save without parameter
-     */
-    public function test_custom_filename_on_save_without_parameter()
-    {
-        $this->modifier->resize( 100, 100 )
-            ->save();
-        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x100-resize.jpg' );
-
-        $this->modifier->resize( null, 100 )
-            ->save();
-        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-_x100.jpg' );
-
-        $this->modifier->resize( 100, null )
-            ->save();
-        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x_.jpg' );
-
-        $this->modifier->cropToFit( 100, 100 )
-            ->save();
-        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-100x100.jpg' );
-    }
-
-    /*
      * Can save images in same folder
      */
     public function test_save_images_in_same_folder()
     {
         $this->modifier->resize( 150, 150 )
-            ->save();
+            ->save( 'test-image-150x150-resize.jpg' );
         $this->assertFileExists( dirname( $this->imagePath ) . '/test-image-150x150-resize.jpg' );
     }
 
@@ -101,7 +79,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $cropsFolder = dirname( $this->imagePath ) . '/tests';
         $this->modifier->setCropsFolder( $cropsFolder );
         $this->modifier->resize( 160, 160 )
-            ->save();
+            ->save( 'test-image-160x160-resize.jpg' );
         $this->assertFileExists( $cropsFolder . '/test-image-160x160-resize.jpg' );
 
         return $cropsFolder;
@@ -113,7 +91,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     public function test_remove_crops_in_same_folder()
     {
         // Make sure we have crops in folder
-        $this->test_custom_filename_on_save_without_parameter();
+        $this->test_save_images_in_same_folder();
 
         $this->modifier->removeCrops();
     }
@@ -121,32 +99,31 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     /*
      * Can remove crops from different folder
      */
-    public function test_remove_crops_in_crops_folder()
+    public function test_remove_crops_in_different_crops_folder()
     {
         // Make sure we have crops in folder
         $this->test_save_images_in_different_folder();
-
         $this->modifier->removeCrops();
     }
 
     /*
      * Can remove crops from static function
      */
-    public function test_remove_crops_from_static_function()
-    {
-        // Make sure we have crops in folder
-        // $this->test_custom_filename_on_save_without_parameter();
-        // ImageHandler::deleteCrops( $this->imagePath );
-    }
+    // public function test_remove_crops_from_static_function()
+    // {
+        // // Make sure we have crops in folder
+        // // $this->test_custom_filename_on_save_without_parameter();
+        // // ImageHandler::deleteCrops( $this->imagePath );
+    // }
 
     /*
      * Can remove crops from static function in different folder
      */
-    public function test_remove_crops_in_different_folder_from_static_function()
-    {
-        // Make sure we have crops in folder
-        // $cropsFolder = $this->test_save_images_in_different_folder();
-        // ImageHandler::deleteCrops( $this->imagePath, $cropsFolder );
-    }
+    // public function test_remove_crops_in_different_folder_from_static_function()
+    // {
+        // // Make sure we have crops in folder
+        // // $cropsFolder = $this->test_save_images_in_different_folder();
+        // // ImageHandler::deleteCrops( $this->imagePath, $cropsFolder );
+    // }
 
 }
