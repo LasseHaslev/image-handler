@@ -91,11 +91,8 @@ class ImageHandler extends ImageModifier
         // Get original file name
         $justTheName = pathinfo($this->originalImagePath, PATHINFO_FILENAME);
 
-        // Get the directory of where all the files are
-        $dir = dirname( $this->originalImagePath );
-
         // Get all the files to remove
-        $filesToRemove = glob( sprintf( '%s/%s-*', $dir, $justTheName ) );
+        $filesToRemove = glob( sprintf( '%s/%s-*', $this->cropsFolder, $justTheName ) );
 
         // Delete the crops from list
         foreach($filesToRemove as $file){ // iterate files

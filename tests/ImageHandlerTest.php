@@ -110,6 +110,10 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_remove_crops_in_same_folder()
     {
+        // Make sure we have crops in folder
+        $this->test_custom_filename_on_save_without_parameter();
+
+        $this->modifier->removeCrops();
     }
 
     /*
@@ -117,6 +121,10 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_remove_crops_in_different_folder()
     {
+        // Make sure we have crops in folder
+        $this->test_save_images_in_different_folder();
+
+        $this->modifier->removeCrops();
     }
 
 }
