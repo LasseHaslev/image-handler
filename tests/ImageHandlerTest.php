@@ -88,6 +88,9 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_save_images_in_same_folder()
     {
+        $this->modifier->resize( 150, 150 )
+            ->save();
+        $this->assertFileExists( dirname( $this->imagePath ) . '/test-image-150x150-resize.jpg' );
     }
 
     /*
@@ -95,6 +98,11 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_save_images_in_different_folder()
     {
+        $cropsFolder = dirname( $this->imagePath ) . '/tests';
+        $this->modifier->setCropsFolder( $cropsFolder );
+        $this->modifier->resize( 160, 160 )
+            ->save();
+        $this->assertFileExists( $cropsFolder . '/test-image-160x160-resize.jpg' );
     }
 
     /*
