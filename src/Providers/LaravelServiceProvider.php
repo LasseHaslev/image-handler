@@ -3,6 +3,8 @@
 namespace LasseHaslev\Image\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use LasseHaslev\Image\Handlers\ImageHandler;
+use LasseHaslev\Image\Adaptors\FilenameAdaptor;
 
 class LaravelServiceProvider extends ServiceProvider
 {
@@ -17,7 +19,12 @@ class LaravelServiceProvider extends ServiceProvider
         $router = $this->app[ 'router' ];
 
         $router->get( '{path}', function( $url ) {
-            $cropHandler = new ImageCropHandler;
+
+            $cropHandler = new ImageHandler;
+            $adaptor = new FilenameAdaptor( 'test-image-160x160-resize.jpg' );
+            $this->modifier->useAdaptor( $adaptor )
+                ->getCropPath();
+
             return $cropHandler->handleUrl( $url )
                 ->getResponse();
         } )->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$' );

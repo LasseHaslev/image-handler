@@ -43,7 +43,7 @@ class ImageModifier
      *
      * @return static
      */
-    public function resetImageObject()
+    public function reset()
     {
 
         $this->destroy();

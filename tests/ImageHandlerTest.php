@@ -114,10 +114,25 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function test_can_handle_image_with_adaptor()
     {
-        $adaptor = new FilenameAdaptor( 'test-image-160x160-resize.jpg' );
+        $adaptor = new FilenameAdaptor( 'test-image-15x15-resize.jpg' );
         $this->modifier->useAdaptor( $adaptor );
+        $this->assertFileExists( $this->modifier->getCropsFolder() . '/test-image-15x15-resize.jpg' );
     }
 
+    public test_work_as_i_would_expect_it_to() {
+
+            $this->modifier->setOriginalFolder( __DIR__ . '/../images' );
+            $this->modifier->setCropsFolder( __DIR__ . '/../images/crops' );
+
+            $adaptor = new FilenameAdaptor( 'test-image-160x160-resize.jpg' );
+
+            $path = $this->modifier->useAdaptor( $adaptor )
+                ->getCropPath();
+
+            // $file = File::get( $path );
+            // return response( $file, 200 )
+                // ->header( 'Content-Type', $this->modifier->mimeType() );
+    }
 
     /*
      * Can remove crops from static function

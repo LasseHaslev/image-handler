@@ -128,25 +128,39 @@ class ImageHandler extends ImageModifier
             'width'=>null,
             'height'=>null,
             'resize'=>false,
+            'originalFolder'=>null,
+            'cropsFolder'=>null,
         ], $adaptorTransformValue );
 
+        // Handle the image
+        return $this->handle( $filename, $width, $height, $resize, $originalFolder, $cropsFolder );
+    }
+
+    /**
+     * Handle image based on the parameters you give
+     *
+     * @return ImageHandler
+     */
+    public function handle( $filename = null, $width = null, $height = null, $resize = false, $originalFolder = null, $cropsFolder = null )
+    {
+
         // Throw error if filename is not set
-        if ( ! $data[ 'filename' ] ) throw new \Exception( 'You need to set a filename in adaptor' );
+        if ( ! $filename ) throw new \Exception( 'You need to set a filename in adaptor' );
 
         // Throw error if both width and height is null
-        if ( ! $data[ 'width' ] && ! $data[ 'height' ] ) throw new \Exception( 'The width or the height need to be set' );
+        if ( ! $width && ! $height ) throw new \Exception( 'The width or the height need to be set' );
 
         // Check if we should resize or crop
         // If one of the width or height is _ This is still a resize
-        if ( $data[ 'resize' ] || ( !$data[ 'width' ] || !$data[ 'height' ] ) ) {
-            $this->resize( $data[ 'width' ], $data[ 'height' ] );
+        if ( $resize || ( !$width || !$height ) ) {
+            $this->resize( $width, $height );
         }
         else {
-            $this->cropToFit( $data[ 'width' ], $data[ 'height' ] );
+            $this->cropToFit( $width, $height );
         }
 
         // Save the new image and return the response as image
-        $this->save( $data[ 'filename' ] );
+        $this->save( $filename );
     }
 
 
@@ -174,5 +188,31 @@ class ImageHandler extends ImageModifier
         // Return $this-> from parent
         return $returnValue;
     }
+
+    /**
+     * Automaticly call functions on this object and check if the functions exists on modifier
+     * Shortcuts for calling functions on modifier
+     *
+     * return mixed
+     */
+    public function __call( $name, $arguments ) {
+
+        // check if method dont exist on this
+        if (! method_exists( $this, $name )) {
+
+            // Check if method exists on modifier
+            if ( method_exists( $this->modifier, $name ) ) {
+
+                return call_user_func_array( [ $this->modifier, $name ], $arguments );
+
+            }
+
+        }
+
+        // Else try calling this method on this class
+        return call_user_func_array( $name, $arguments );
+
+    }
+
 
 }
