@@ -16,35 +16,34 @@ class ImageHandler extends ImageModifier
     /**
      * Folder where the crops should be saved
      */
+    protected $filename;
+    protected $originalFolder;
     protected $cropsFolder;
-
-    /**
-     * Image information sets when handling image
-     */
-    protected $setWidth;
-    protected $setHeight;
-    protected $isResized = false;
 
     /**
      * Quickly create a new instance
      *
      * @return ImageModifier instance
      */
-    public static function create( $path, $cropsFolder = null )
+    public static function create( $filename, $originalFolder = null, $cropsFolder = null )
     {
-        return new static( $path, $cropsFolder );
+        return new static( $filename, $originalFolder, $cropsFolder );
     }
 
     /**
      * @param string $originalImagePath
      */
-    public function __construct( $originalImagePath, $cropsFolder = null )
+    public function __construct( $filename, $originalFolder = null, $cropsFolder = null )
     {
 
-        // Set cropsFolder or get the directory of $originalImagePath
-        $this->cropsFolder = $cropsFolder ?: dirname( $originalImagePath );
+        $this->originalFolder = $originalFolder ?: dirname( $filename );
 
-        return parent::__construct( $originalImagePath );
+        // Set cropsFolder or get the directory of $originalImagePath
+        $this->cropsFolder = $cropsFolder ?: $this->originalFolder;
+
+        $this->filename = $originalFolder ? $filename : basename( $filename );
+
+        return parent::__construct( sprintf( '%s/%s', $this->originalFolder, $this->filename ) );;
 
     }
 
@@ -107,62 +106,6 @@ class ImageHandler extends ImageModifier
         return $this;
     }
 
-    /**
-     * undocumented function
-     *
-     * @return void
-     */
-    public function useAdaptor( CropAdaptorInterface $adaptor )
-    {
-
-        $adaptorTransformValue = $adaptor->transform();
-
-        // Make shure the adaptor@transform returns array
-        if ( ! is_array( $adaptorTransformValue ) ) {
-            throw new \Exception( 'The returntype of the transform function in the adaptor need to return an array.' );
-        }
-
-        // Overwrite default data with adaptor
-        $data = array_merge( [
-            'filename'=>null,
-            'width'=>null,
-            'height'=>null,
-            'resize'=>false,
-            'originalFolder'=>null,
-            'cropsFolder'=>null,
-        ], $adaptorTransformValue );
-
-        // Handle the image
-        return $this->handle( $filename, $width, $height, $resize, $originalFolder, $cropsFolder );
-    }
-
-    /**
-     * Handle image based on the parameters you give
-     *
-     * @return ImageHandler
-     */
-    public function handle( $filename = null, $width = null, $height = null, $resize = false, $originalFolder = null, $cropsFolder = null )
-    {
-
-        // Throw error if filename is not set
-        if ( ! $filename ) throw new \Exception( 'You need to set a filename in adaptor' );
-
-        // Throw error if both width and height is null
-        if ( ! $width && ! $height ) throw new \Exception( 'The width or the height need to be set' );
-
-        // Check if we should resize or crop
-        // If one of the width or height is _ This is still a resize
-        if ( $resize || ( !$width || !$height ) ) {
-            $this->resize( $width, $height );
-        }
-        else {
-            $this->cropToFit( $width, $height );
-        }
-
-        // Save the new image and return the response as image
-        $this->save( $filename );
-    }
-
 
     /**
      * undocumented function
@@ -183,35 +126,10 @@ class ImageHandler extends ImageModifier
         $returnValue = parent::save( $path );
 
         // Reset
-        $this->resetImageObject();
+        $this->reset();
 
         // Return $this-> from parent
         return $returnValue;
-    }
-
-    /**
-     * Automaticly call functions on this object and check if the functions exists on modifier
-     * Shortcuts for calling functions on modifier
-     *
-     * return mixed
-     */
-    public function __call( $name, $arguments ) {
-
-        // check if method dont exist on this
-        if (! method_exists( $this, $name )) {
-
-            // Check if method exists on modifier
-            if ( method_exists( $this->modifier, $name ) ) {
-
-                return call_user_func_array( [ $this->modifier, $name ], $arguments );
-
-            }
-
-        }
-
-        // Else try calling this method on this class
-        return call_user_func_array( $name, $arguments );
-
     }
 
 
