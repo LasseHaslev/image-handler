@@ -29,7 +29,7 @@ class FilenameAdaptor implements CropAdaptorInterface
     {
         $data = $this->getData( $this->filename );
         return [
-            'filename'=>$this->filename,
+            'name'=>$data[ 'filename' ],
             'width'=>$data[ 'width' ],
             'height'=>$data[ 'height' ],
             'resize'=>$data[ 'resize' ],

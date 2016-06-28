@@ -41,8 +41,12 @@ class CropHandler
      *
      * @return void
      */
-    public function useAdaptor( CropAdaptorInterface $adaptor )
+    public function useAdaptor( $adaptor )
     {
+
+        if ( ! class_implements( $adaptor ) ) {
+            throw new Exception( 'The adaptor need to implement LasseHaslev\Image\Adaptors\CropAdaptorInterface' );
+        }
 
         $adaptorTransformValue = $adaptor->transform();
 
@@ -52,7 +56,7 @@ class CropHandler
         }
 
         // Handle the image
-        return $this->handle( $filename, $width, $height, $resize, $originalFolder, $cropsFolder );
+        return $this->handle( $adaptorTransformValue );
     }
 
     /**
@@ -66,6 +70,7 @@ class CropHandler
         // Overwrite default data with data
         $data = array_merge( [
             'name'=>null,
+            'skip'=>false,
             'width'=>null,
             'height'=>null,
             'resize'=>false,
@@ -77,6 +82,9 @@ class CropHandler
 
         // Create variables from array keys
         extract( $data );
+
+        // If we want to skip this
+        if ( $skip ) return $this;
 
         // Throw error if filename is not set
         if ( ! $name ) throw new \Exception( 'You need to set a name in adaptor' );
@@ -107,9 +115,13 @@ class CropHandler
      */
     public function save( $name )
     {
-        // Save the new image and return the response as image
-        $this->handler->save( $name );
 
+        // If the file dont exists we save the image
+        if ( ! file_exists( $this->getCropsFolder( $name ) ) ) {
+            $this->handler->save( $name );
+        }
+
+        // Save the new image and return the response as image
         $this->handler->destroy();
 
         return $this;

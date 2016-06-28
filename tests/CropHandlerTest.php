@@ -31,31 +31,37 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         // $this->handler->destroy();
     }
 
-
     /**
      * Check if we can use an adaptor to handle resizing of image
      *
      * @return void
      */
-    public function test_can_handle_image_with_adaptor()
+    public function test_can_handle_image_data()
     {
         $path = $this->handler->handle( [
             'name'=>'test-image.jpg',
             'width'=>15,
             'height'=>15,
             'resize'=>true,
-        ] )->save( 'test-image-15x15-resize.jpg' );
+        ] )->save( 'test-image-43x43-resize.jpg' );
 
-        $this->assertFileExists( $this->handler->getCropsFolder('test-image-15x15-resize.jpg') );
+        $this->assertFileExists( $this->handler->getCropsFolder('test-image-43x43-resize.jpg') );
     }
 
-    public function test_work_as_i_would_expect_it_to() {
-            // $path = $this->handler->useAdaptor( $adaptor )
-                // ->getCropPath();
+    /**
+     * Check if we can use an adaptor to handle resizing of image
+     *
+     * @return void
+     */
+    public function test_can_handle_image_data_with_adaptor()
+    {
+        $filename = 'test-image-44x44-resize.jpg';
+        $path = $this->handler
+            ->useAdaptor( new FilenameAdaptor( $filename ) )
+            ->save( $filename )
+            ->getCropsFolder( $filename );
 
-            // $file = File::get( $path );
-            // return response( $file, 200 )
-                // ->header( 'Content-Type', $this->handler->mimeType() );
+        $this->assertFileExists( $path );
     }
 
 }
