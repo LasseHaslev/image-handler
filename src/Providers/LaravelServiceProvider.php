@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use LasseHaslev\Image\Handlers\CropHandler;
 use LasseHaslev\Image\Adaptors\FilenameAdaptor;
 
+use Illuminate\Support\Facades\File;
+
 class LaravelServiceProvider extends ServiceProvider
 {
     /**
@@ -26,13 +28,11 @@ class LaravelServiceProvider extends ServiceProvider
             $path = $handler->useAdaptor( new FilenameAdaptor( $url ) )
                 ->save( $url )
                 ->getCropsFolder( $url );
-            echo dd($path);
-            // $adaptor = new ;
-            $this->modifier->useAdaptor( $adaptor )
-                ->getCropPath();
 
-            return $cropHandler->handleUrl( $url )
-                ->getResponse();
+            $file = File::get( $path );
+            return response( $file, 200 )
+                ->header( 'Content-Type', $this->mimeType() );
+
         } )->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$' );
     }
 

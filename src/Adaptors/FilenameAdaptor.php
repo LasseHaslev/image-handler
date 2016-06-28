@@ -28,6 +28,7 @@ class FilenameAdaptor implements CropAdaptorInterface
     public function transform()
     {
         $data = $this->getData( $this->filename );
+        var_dump( $this->filename );
         return [
             'name'=>$data[ 'filename' ],
             'width'=>$data[ 'width' ],
@@ -44,6 +45,8 @@ class FilenameAdaptor implements CropAdaptorInterface
      */
     protected function getData( $filename )
     {
+
+        var_dump( dirname( $filename ) );
 
         $matches = [];
 

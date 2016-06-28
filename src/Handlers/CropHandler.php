@@ -132,6 +132,32 @@ class CropHandler
      *
      * return string
      */
+    public function getOriginalsFolder( $filename = null )
+    {
+        if ( $filename ) {
+            return sprintf( '%s/%s', $this->originalsFolder, $filename );
+        }
+        return $this->originalsFolder;
+    }
+
+    /**
+     * Setter for originalsFolder
+     *
+     * @param string $originalsFolder
+     * @return CropHandler
+     */
+    public function setOriginalsFolder($originalsFolder)
+    {
+        $this->originalsFolder = $originalsFolder;
+
+        return $this;
+    }
+
+    /**
+     * Getter for cropsFolder
+     *
+     * return string
+     */
     public function getCropsFolder( $filename = null )
     {
         if ( $filename ) {

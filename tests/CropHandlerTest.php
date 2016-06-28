@@ -64,4 +64,18 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists( $path );
     }
 
+    public function test_set_relative_path_from_original_folder() {
+        $filename = 'images/test-image-89x89-resize.jpg';
+        $path = $this->handler
+
+            ->setOriginalsFolder( __DIR__ . '/..' )
+            ->setCropsFolder( __DIR__ . '/../images/tests' )
+
+            ->useAdaptor( new FilenameAdaptor( $filename ) )
+            ->save( $filename )
+            ->getCropsFolder( $filename );
+
+        $this->assertFileExists( __DIR__ . '/../images/tests/test-image-89x89-resize.jpg' );
+    }
+
 }
