@@ -25,19 +25,7 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Call destroy on the handler to remove the GD object
-     * This prevent error
-     */
-    public function tearDown()
-    {
-        // $this->handler->destroy();
-    }
-
-    // Get baseFolder
-    /**
      * Get set and get baseFolder
-     *
-     * @return void
      */
     public function test_set_and_get_base_folder()
     {
@@ -46,11 +34,8 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $this->baseFolder, $this->handler->getBaseFolder() );
     }
 
-    // Get cropsFolder
     /**
      * Get set and get cropsFolder
-     *
-     * @return void
      */
     public function test_set_and_get_crops_folder()
     {
@@ -86,8 +71,6 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test get aboslute path to crops folder with attribute
-     *
-     * @return void
      */
     public function test_get_aboslute_path_to_crops_folder_with_attribute()
     {
@@ -108,7 +91,6 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( sprintf( '%s/%s', $this->baseFolder, $relativePath ), $this->handler->getCropsFolder( $relativePath ) );
     }
 
-    // Can set Adaptor
     /**
      * Can set Adaptor
      */
@@ -120,7 +102,9 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $adaptor, $this->handler->getAdaptor() );
     }
 
-    // Throw error if Adaptor dont inherit CropAdaptorInterface
+    /**
+     * Throw error if Adaptor dont inherit CropAdaptorInterface
+     */
     public function test_trow_error_if_adaptor_not_implementing_adaptor_interface()
     {
         $this->setExpectedException( 'Exception' );
@@ -128,8 +112,6 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $adaptor = new CropHandler;
         $this->handler->setAdaptor( $adaptor );
     }
-
-    // When trying to get crop from relative path when cropsfolder retrieve {baseFolder}/{relativePath}
 
     // public function test_set_relative_path_from_base_folder() {
         // $filename = 'images/test-image-89x89-resize.jpg';
