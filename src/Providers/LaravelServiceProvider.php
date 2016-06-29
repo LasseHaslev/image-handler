@@ -22,7 +22,7 @@ class LaravelServiceProvider extends ServiceProvider
 
         $router->get( '{path}', function( $url ) {
 
-            $handler = CropHandler::create( public_path(), public_path( 'images' ) );
+            $handler = CropHandler::create( public_path() );
 
             $path = $handler->setAdaptor( new FilenameAdaptor )
                 ->handle( $url )

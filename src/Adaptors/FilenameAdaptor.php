@@ -39,7 +39,7 @@ class FilenameAdaptor implements CropAdaptorInterface
 
         $matches = [];
 
-        preg_match( '/([A-z0-9\-]+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*(\..+)$/', basename( $filename ), $matches );
+        preg_match( '/([A-z0-9\-\_\.]+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*(\..+)$/', basename( $filename ), $matches );
 
         return [
             'name'=>$matches[ 1 ], // Name
