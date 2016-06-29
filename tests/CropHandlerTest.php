@@ -45,7 +45,6 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
     }
 
 
-    // Get base path if cropsfolder does not exists
     /**
      * Get baseFolder if crops folder does not exists
      */
