@@ -11,26 +11,17 @@ class FilenameAdaptor implements CropAdaptorInterface
 
     protected $filename;
 
-    /**
-     * @param mixed $filename
-     */
-    public function __construct($filename)
-    {
-        $this->filename = $filename;
-    }
-
 
     /**
      * Prepare what we want to do with the image
      *
      * @return void
      */
-    public function transform()
+    public function transform( $input, $handler = null )
     {
-        $data = $this->getData( $this->filename );
-        var_dump( $this->filename );
+        $data = $this->getData( $input );
         return [
-            'name'=>$data[ 'filename' ],
+            'name'=>sprintf( '%s/%s', dirname( $input ), $data[ 'filename' ] ),
             'width'=>$data[ 'width' ],
             'height'=>$data[ 'height' ],
             'resize'=>$data[ 'resize' ],
@@ -45,8 +36,6 @@ class FilenameAdaptor implements CropAdaptorInterface
      */
     protected function getData( $filename )
     {
-
-        var_dump( dirname( $filename ) );
 
         $matches = [];
 

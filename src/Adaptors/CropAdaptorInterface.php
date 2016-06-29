@@ -8,5 +8,5 @@ namespace LasseHaslev\Image\Adaptors;
  */
 interface CropAdaptorInterface
 {
-    public function transform();
+    public function transform( $input, $handler = null );
 }

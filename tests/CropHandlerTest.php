@@ -12,14 +12,16 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
 
     protected $handler;
     protected $imagePath;
+    protected $baseFolder;
 
     /*
      * Setup image path and handler
      */
     public function setup()
     {
+        $this->baseFolder = __DIR__ . '/../images';
         $this->imagePath = __DIR__ . '/../images/test-image.jpg';
-        $this->handler = CropHandler::create( dirname( $this->imagePath ) );
+        $this->handler = CropHandler::create();
     }
 
     /**
@@ -31,51 +33,66 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         // $this->handler->destroy();
     }
 
+    // Get baseFolder
     /**
-     * Check if we can use an adaptor to handle resizing of image
+     * Get set and get baseFolder
      *
      * @return void
      */
-    public function test_can_handle_image_data()
+    public function test_set_and_get_base_folder()
     {
-        $path = $this->handler->handle( [
-            'name'=>'test-image.jpg',
-            'width'=>15,
-            'height'=>15,
-            'resize'=>true,
-        ] )->save( 'test-image-43x43-resize.jpg' );
-
-        $this->assertFileExists( $this->handler->getCropsFolder('test-image-43x43-resize.jpg') );
+        $this->handler
+            ->setBaseFolder( $this->baseFolder );
+        $this->assertEquals( $this->baseFolder, $this->handler->getBaseFolder() );
     }
 
+    // Get cropsFolder
     /**
-     * Check if we can use an adaptor to handle resizing of image
+     * Get set and get cropsFolder
      *
      * @return void
      */
-    public function test_can_handle_image_data_with_adaptor()
+    public function test_set_and_get_crops_folder()
     {
-        $filename = 'test-image-44x44-resize.jpg';
-        $path = $this->handler
-            ->useAdaptor( new FilenameAdaptor( $filename ) )
-            ->save( $filename )
-            ->getCropsFolder( $filename );
-
-        $this->assertFileExists( $path );
+        $this->handler
+            ->setCropsFolder( $this->baseFolder );
+        $this->assertEquals( $this->baseFolder, $this->handler->getCropsFolder() );
     }
 
-    public function test_set_relative_path_from_original_folder() {
-        $filename = 'images/test-image-89x89-resize.jpg';
-        $path = $this->handler
 
-            ->setOriginalsFolder( __DIR__ . '/..' )
-            ->setCropsFolder( __DIR__ . '/../images/tests' )
+    // Get base path if cropsfolder does not exists
+    /**
+     * Get baseFolder if crops folder does not exists
+     */
+    public function test_get_base_path_if_crops_folder_does_not_exists()
+    {
+        $this->handler
+            ->setBaseFolder( $this->baseFolder );
 
-            ->useAdaptor( new FilenameAdaptor( $filename ) )
-            ->save( $filename )
-            ->getCropsFolder( $filename );
-
-        $this->assertFileExists( __DIR__ . '/../images/tests/test-image-89x89-resize.jpg' );
+        $this->assertEquals( $this->baseFolder, $this->handler->getCropsFolder() );
     }
+
+
+
+    // Get file in crop folder when adding relative path
+    // When trying to get crop from relative path get {cropsFolder}/{cropName}
+    // When trying to get crop from relative path when cropsfolder retrieve {baseFolder}/{relativePath}
+
+    // public function test_set_relative_path_from_base_folder() {
+        // $filename = 'images/test-image-89x89-resize.jpg';
+        // $path = $this->handler
+
+            // ->setBaseFolder( __DIR__ . '/..' )
+            // ->setCropsFolder( __DIR__ . '/../images/tests' )
+
+            // ->setAdaptor( new FilenameAdaptor )
+
+            // ->handle( $filename )
+
+            // ->save( $filename )
+            // ->getCropsFolder( $filename );
+
+        // $this->assertFileExists( __DIR__ . '/../images/tests/test-image-89x89-resize.jpg' );
+    // }
 
 }

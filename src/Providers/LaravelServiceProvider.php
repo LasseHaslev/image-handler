@@ -22,10 +22,10 @@ class LaravelServiceProvider extends ServiceProvider
 
         $router->get( '{path}', function( $url ) {
 
-            $original = public_path( dirname( $url ) );
-            $handler = CropHandler::create( $original );
+            $handler = CropHandler::create( public_path() );
 
-            $path = $handler->useAdaptor( new FilenameAdaptor( $url ) )
+            $path = $handler->setAdaptor( new FilenameAdaptor )
+                ->handle( $url )
                 ->save( $url )
                 ->getCropsFolder( $url );
 
