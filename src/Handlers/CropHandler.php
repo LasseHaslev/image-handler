@@ -2,6 +2,9 @@
 
 namespace LasseHaslev\Image\Handlers;
 
+use LasseHaslev\Image\Adaptors\CropAdaptorInterface;
+
+
 /**
  * Class CropHandler
  * @author Lasse S. Haslev
@@ -91,6 +94,34 @@ class CropHandler
         }
 
         return $this->cropsFolder;
+    }
+
+    /**
+     * Setter for adaptor
+     *
+     * @param CropAdaptorInterface $adaptor
+     * @return CropHandler
+     */
+    public function setAdaptor($adaptor)
+    {
+
+        if ( ! ( $adaptor instanceof CropAdaptorInterface ) ) {
+            throw new \Exception( 'The adaptor need to implement LasseHaslev\Image\Adaptors\CropAdaptorInterface' );
+        }
+
+        $this->adaptor = $adaptor;
+
+        return $this;
+    }
+
+    /**
+     * Getter for adaptor
+     *
+     * return CropHandler
+     */
+    public function getAdaptor()
+    {
+        return $this->adaptor;
     }
 
 }

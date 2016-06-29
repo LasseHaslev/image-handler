@@ -108,10 +108,27 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( sprintf( '%s/%s', $this->baseFolder, $relativePath ), $this->handler->getCropsFolder( $relativePath ) );
     }
 
+    // Can set Adaptor
+    /**
+     * Can set Adaptor
+     */
+    public function test_can_get_and_set_adaptor()
+    {
+        $adaptor = new FilenameAdaptor;
+        $this->handler->setAdaptor( $adaptor );
 
+        $this->assertEquals( $adaptor, $this->handler->getAdaptor() );
+    }
 
-    // Get file in crop folder when adding relative path
-    // When trying to get crop from relative path get {cropsFolder}/{cropName}
+    // Throw error if Adaptor dont inherit CropAdaptorInterface
+    public function test_trow_error_if_adaptor_not_implementing_adaptor_interface()
+    {
+        $this->setExpectedException( 'Exception' );
+
+        $adaptor = new CropHandler;
+        $this->handler->setAdaptor( $adaptor );
+    }
+
     // When trying to get crop from relative path when cropsfolder retrieve {baseFolder}/{relativePath}
 
     // public function test_set_relative_path_from_base_folder() {
