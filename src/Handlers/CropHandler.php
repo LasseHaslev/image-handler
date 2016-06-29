@@ -94,7 +94,7 @@ class CropHandler
     public function save($path)
     {
         if ( ! file_exists( $this->getCropsFolder( $path ) ) ) {
-            $this->handler->save( $this->getCropsFolder( $path ) );
+            $this->handler->save( $this->getCropsFolder( $path ), true );
         }
 
         return $this;

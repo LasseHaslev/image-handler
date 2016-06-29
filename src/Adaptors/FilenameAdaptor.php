@@ -21,7 +21,7 @@ class FilenameAdaptor implements CropAdaptorInterface
     {
         $data = $this->getData( $input );
         return [
-            'name'=>sprintf( '%s/%s', dirname( $input ), $data[ 'filename' ] ),
+            'name'=>$data[ 'filepath' ],
             'width'=>$data[ 'width' ],
             'height'=>$data[ 'height' ],
             'resize'=>$data[ 'resize' ],
@@ -43,6 +43,8 @@ class FilenameAdaptor implements CropAdaptorInterface
 
         return [
             'name'=>$matches[ 1 ], // Name
+
+            'filepath'=>dirname( $filename ) == '.' ? $matches[ 1 ] . $matches[ 5 ] : dirname( $filename ) . '/' . $matches[ 1 ] . $matches[ 5 ], // Name
 
             // If the value is _ we returns null
             'width'=>$matches[ 2 ] != '_' ? $matches[ 2 ] : null, // Width

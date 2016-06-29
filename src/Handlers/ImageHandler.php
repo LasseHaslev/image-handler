@@ -112,11 +112,14 @@ class ImageHandler extends ImageModifier
      *
      * @return void
      */
-    public function save($path)
+    public function save($path, $fullPath = false)
     {
-        // var_dump( [ $this->getWidth(), $this->getHeight() ] );
-        $path = sprintf( '%s/%s', $this->cropsFolder, basename( $path ) );
+        if ( !$fullPath ) {
 
+            // var_dump( [ $this->getWidth(), $this->getHeight() ] );
+            $path = sprintf( '%s/%s', $this->cropsFolder, basename( $path ) );
+
+        }
 
         if ($path == $this->originalImagePath) {
             throw new \Exception( 'You are not allowed to overwrite original image. Select another save path.' );

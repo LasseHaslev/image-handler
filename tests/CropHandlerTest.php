@@ -137,6 +137,26 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists( $this->baseFolder . '/tests/test-image-89x89-resize.jpg' );
     }
 
+    /**
+     * Test use handler to handle image
+     */
+    public function test_use_adaptor_to_handle_image() {
+        $relativePath = 'test-image-93x93-resize.jpg';
+
+        $this->handler
+
+            // Set up handler
+            ->setBaseFolder( $this->baseFolder )
+            ->setCropsFolder( $this->baseFolder . '/tests' )
+            ->setAdaptor( new FilenameAdaptor )
+
+            ->handle( $relativePath )
+
+            ->save( $relativePath );
+
+        $this->assertFileExists( $this->baseFolder . '/tests/test-image-93x93-resize.jpg' );
+    }
+
     // public function test_set_relative_path_from_base_folder() {
         // $filename = 'images/test-image-89x89-resize.jpg';
         // $path = $this->handler

@@ -75,7 +75,7 @@ class ImageModifier
 
         // Check if the file is a valid file
         if ( ! is_file( $this->originalImagePath ) ) {
-            throw new Exception( sprintf( '%s is not a valid file', $this->originalImagePath ) );
+            throw new Exception( sprintf( '%s: No image found.', $this->originalImagePath ) );
         }
 
         // Get the mimetype
