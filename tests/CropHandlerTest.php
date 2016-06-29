@@ -72,7 +72,27 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $this->baseFolder, $this->handler->getCropsFolder() );
     }
 
+    /**
+     * Get relative path of base folder
+     */
+    public function test_get_relative_path_of_base_folder_with_attribute()
+    {
 
+        $relativePath = 'images/my-image.jpg';
+        $this->handler->setBaseFolder( $this->baseFolder );
+
+        $this->assertEquals( sprintf( '%s/%s', $this->baseFolder, $relativePath ), $this->handler->getBaseFolder( $relativePath ) );
+    } // Do this but remove "/" if set in attrubute eks: "/myPath" > "myPath"
+
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function test_get_aboslute_path_to_crops_folder_with_attribute()
+    {
+    }
 
     // Get file in crop folder when adding relative path
     // When trying to get crop from relative path get {cropsFolder}/{cropName}

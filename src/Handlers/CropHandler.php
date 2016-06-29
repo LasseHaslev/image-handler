@@ -51,8 +51,13 @@ class CropHandler
      *
      * return string
      */
-    public function getBaseFolder()
+    public function getBaseFolder( $path = null )
     {
+
+        if ( $path ) {
+            return sprintf( '%s/%s', $this->baseFolder, $path );
+        }
+
         return $this->baseFolder;
     }
 
