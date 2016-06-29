@@ -198,4 +198,14 @@ class CropHandler
         return $this->adaptor;
     }
 
+    /**
+     * Getter for mimeType
+     *
+     * return string
+     */
+    public function getMimeType()
+    {
+        return $this->handler->mimeType();
+    }
+
 }

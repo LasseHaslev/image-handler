@@ -22,7 +22,7 @@ class LaravelServiceProvider extends ServiceProvider
 
         $router->get( '{path}', function( $url ) {
 
-            $handler = CropHandler::create( public_path() );
+            $handler = CropHandler::create( public_path(), public_path( 'images' ) );
 
             $path = $handler->setAdaptor( new FilenameAdaptor )
                 ->handle( $url )
@@ -31,7 +31,7 @@ class LaravelServiceProvider extends ServiceProvider
 
             $file = File::get( $path );
             return response( $file, 200 )
-                ->header( 'Content-Type', $this->mimeType() );
+                ->header( 'Content-Type', $handler->getMimeType() );
 
         } )->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$' );
     }

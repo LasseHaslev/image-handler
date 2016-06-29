@@ -112,6 +112,7 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
         $this->handler->setAdaptor( $adaptor );
     }
 
+
     /**
      * Test use handler to handle image
      */
@@ -155,6 +156,26 @@ class CropHandlerTest extends PHPUnit_Framework_TestCase
             ->save( $relativePath );
 
         $this->assertFileExists( $this->baseFolder . '/tests/test-image-93x93-resize.jpg' );
+    }
+
+    /**
+     * Get mimetype of image
+     */
+    public function test_get_mimetype_of_image()
+    {
+        $relativePath = 'test-image-93x93-resize.jpg';
+
+        $mimetype = $this->handler
+
+            // Set up handler
+            ->setBaseFolder( $this->baseFolder )
+            ->setAdaptor( new FilenameAdaptor )
+
+            ->handle( $relativePath )
+
+            ->getMimeType();
+
+        $this->assertEquals( 'image/jpeg', $mimetype );
     }
 
     // public function test_set_relative_path_from_base_folder() {
