@@ -19,41 +19,6 @@ Open ```config/app.php``` and add ```LasseHaslev\Image\Providers\LaravelServiceP
 
 ## Classes
 You can nativly use this package in all php projects.
-#### ImageModifier
-The ```ImageModifier``` is the base image class for manipulating the images. 
-```
-use LasseHaslev\Image\Modifiers\ImageModifier;
-$modifier = ImageModifier::create( { absolute image path } );
-
-// Crop image function
-$modifier->crop( $x1, $y1, $x2, $y2 );
-
-// Crop image to width and height based on fucuspoint
-$modifier->cropToFit( $width, $height, $focusPointX = 0, $focusPointY = 0 );
-
-// Resize width and height
-$modifier->resize( $width, $height );
-
-// Save the new image
-$modifier->save( {absolutePath} );
-
-// Example
-$modifier->cropToFit( 300, 300 )
-    ->save( '/path/to/image.jpg' );
-```
-
-#### ImageHandler
-The ImageHandler is for handling image and the crops. It extends from ```ImageModifier```.
-```
-use LasseHaslev\Image\Handlers\ImageHandler;
-$modifier = ImageHandler::create( $filepath );
-
-// Remove the crops
-$modifier->removeCrops();
-
-// Save
-$modifier->save( $pathOrFilename, $isFullPath = false );
-```
 
 #### CropHandler
 Adds base folder and crops folder and handle image from image path.
@@ -96,6 +61,41 @@ $handler = CropHandler::create( $baseFolder, $cropsFolder, new Adaptor );
 $this->handler
     ->handle( 'originalFilename.jpg' )
     ->save( 'newFilename' );
+```
+#### ImageModifier
+The ```ImageModifier``` is the base image class for manipulating the images. 
+```
+use LasseHaslev\Image\Modifiers\ImageModifier;
+$modifier = ImageModifier::create( { absolute image path } );
+
+// Crop image function
+$modifier->crop( $x1, $y1, $x2, $y2 );
+
+// Crop image to width and height based on fucuspoint
+$modifier->cropToFit( $width, $height, $focusPointX = 0, $focusPointY = 0 );
+
+// Resize width and height
+$modifier->resize( $width, $height );
+
+// Save the new image
+$modifier->save( {absolutePath} );
+
+// Example
+$modifier->cropToFit( 300, 300 )
+    ->save( '/path/to/image.jpg' );
+```
+
+#### ImageHandler
+The ImageHandler is for handling image and the crops. It extends from ```ImageModifier```.
+```
+use LasseHaslev\Image\Handlers\ImageHandler;
+$modifier = ImageHandler::create( $filepath );
+
+// Remove the crops
+$modifier->removeCrops();
+
+// Save
+$modifier->save( $pathOrFilename, $isFullPath = false );
 ```
 
 ## License
