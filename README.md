@@ -98,5 +98,18 @@ $modifier->removeCrops();
 $modifier->save( $pathOrFilename, $isFullPath = false );
 ```
 
+## Development
+``` bash
+# Install php dependencies
+composer install
+
+# Install elixir dependencies
+npm install
+
+# run Test driven development through elixir
+gulp tdd
+```
+``
+
 ## License
 MIT, dawg
