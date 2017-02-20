@@ -160,7 +160,6 @@ class ImageModifier
      */
     public function cropToFit($width, $height, $focusPointX = 0, $focusPointY = 0)
     {
-
         // Check if the image is a valid resource
         if (!is_resource($this->image)) {
             throw new RuntimeException('No image set');
@@ -199,7 +198,6 @@ class ImageModifier
 
         // Create canvas for the new image
         $canvas = $this->createCanvas( $width, $height );
-
         // Do the cropping of image
         imagecopy( $canvas, $this->image, 0, 0, $x0, $y0, $width, $height );
 
@@ -255,7 +253,6 @@ class ImageModifier
      */
     public function resize( $width = null, $height = null )
     {
-
         // Get the source width and height
         $sourceWidth = imagesx( $this->image );
         $sourceHeight = imagesy( $this->image );
@@ -272,8 +269,10 @@ class ImageModifier
 
         // Find the right aspect ratio width and height of the image
         if ($sourceWidth <= $maxCanvasWidth && $sourceHeight <= $maxCanvasHeight) {
-            $width = $sourceWidth;
-            $height = $sourceHeight;
+            $width = $maxCanvasWidth;
+            $height = $maxCanvasHeight;
+            // $width = $sourceWidth;
+            // $height = $sourceHeight;
         } elseif ($thumbnailAspectRatio > $sourceAspectRatio) {
             $width = (int) ($maxCanvasHeight * $sourceAspectRatio);
             $height = $maxCanvasHeight;
