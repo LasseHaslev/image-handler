@@ -258,28 +258,25 @@ class ImageModifier
         $sourceHeight = imagesy( $this->image );
 
         // Check if any of the width and height is null, and set it to the $source size
-        $width = $width ?: $sourceWidth;
-        $height = $height ?: $sourceHeight;
+        // $width = $width ?: $sourceWidth;
+        // $height = $height ?: $sourceHeight;
+        $sourceAspectRatio = $sourceWidth / $sourceHeight;
+
+        if ( !$width && !$height ) {
+            $width = $sourceWidth;
+            $height = $sourceHeight;
+        }
+        else if ( ! $width ) {
+            $width = $height * $sourceAspectRatio;
+        }
+        else {
+            $height = $width / $sourceAspectRatio;
+        }
 
         $maxCanvasWidth = $width;
         $maxCanvasHeight = $height;
 
-        $sourceAspectRatio = $sourceWidth / $sourceHeight;
         $thumbnailAspectRatio = $maxCanvasWidth / $maxCanvasHeight;
-
-        // Find the right aspect ratio width and height of the image
-        if ($sourceWidth <= $maxCanvasWidth && $sourceHeight <= $maxCanvasHeight) {
-            $width = $maxCanvasWidth;
-            $height = $maxCanvasHeight;
-            // $width = $sourceWidth;
-            // $height = $sourceHeight;
-        } elseif ($thumbnailAspectRatio > $sourceAspectRatio) {
-            $width = (int) ($maxCanvasHeight * $sourceAspectRatio);
-            $height = $maxCanvasHeight;
-        } else {
-            $width = $maxCanvasWidth;
-            $height = (int) ($maxCanvasWidth / $sourceAspectRatio);
-        }
 
         // Create canvas for the new image
         $canvas = $this->createCanvas( $width, $height );
