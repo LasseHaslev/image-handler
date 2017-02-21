@@ -19,7 +19,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
     public function setup()
     {
         // Throw error if originalFilePath does not exist
-        $this->imagePath = __DIR__ . '/../images/test-image.jpg';
+        $this->imagePath = __DIR__ . '/../images/kitten1.jpg';
         $this->modifier = ImageModifier::create( $this->imagePath );
     }
 
@@ -45,7 +45,7 @@ class ImageModifierTest extends PHPUnit_Framework_TestCase
      */
     public function test_save_image()
     {
-        $this->modifier->save( __DIR__ . '/../images/tests/modifier-test-image.jpg' );
+        $this->modifier->save( __DIR__ . '/../images/tests/modifier-kitten1.jpg' );
     }
 
     /**

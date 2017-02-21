@@ -19,7 +19,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $this->imagePath = __DIR__ . '/../images/test-image.jpg';
+        $this->imagePath = __DIR__ . '/../images/kitten1.jpg';
         $this->modifier = ImageHandler::create( $this->imagePath );
     }
 

@@ -101,6 +101,9 @@ $modifier->save( $pathOrFilename, $isFullPath = false );
 ## Development
 I have a problem with my tests. but i dont know why. Sometimes it passes and sometimes it dont.
 ``` bash
+# Prepare test images
+sh prepare.sh
+
 # Install php dependencies
 composer install
 
