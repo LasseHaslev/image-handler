@@ -160,6 +160,9 @@ class ImageModifier
      */
     public function cropToFit($width, $height, $focusPointX = 0, $focusPointY = 0)
     {
+
+        $debug = $width == 100 && $height == 100;
+
         // Check if the image is a valid resource
         if (!is_resource($this->image)) {
             throw new RuntimeException('No image set');
@@ -189,12 +192,19 @@ class ImageModifier
             $temp_height = ( int ) ($width / $originalAspectRatio);
         }
 
-        // Resize the image into the desired image
-        $this->resize( $temp_width, $temp_height );
-
         // Get the center of image based on the focusPoint
         $x0 = ( $temp_width - $width ) * ( ( $focusPointX + 1 ) * .5 );
         $y0 = ( $temp_height - $height ) * ( ( $focusPointY + 1 ) * .5 );
+
+        // If $x0 or $y0 is not a full number increase with one pixel
+        // to fill black line and fill canvas
+        if ( ! ctype_digit( $x0 ) || ! ctype_digit( $y0 ) ) {
+            $temp_width++;
+            $temp_height++;
+        }
+
+        // Resize the image into the desired image
+        $this->resize( $temp_width, $temp_height );
 
         // Create canvas for the new image
         $canvas = $this->createCanvas( $width, $height );
