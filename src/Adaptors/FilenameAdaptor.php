@@ -25,6 +25,9 @@ class FilenameAdaptor implements CropAdaptorInterface
             'width'=>$data[ 'width' ],
             'height'=>$data[ 'height' ],
             'resize'=>$data[ 'resize' ],
+
+            'focus_point_x'=>$data[ 'focusX' ],
+            'focus_point_y'=>$data[ 'focusY' ],
         ];
     }
 
