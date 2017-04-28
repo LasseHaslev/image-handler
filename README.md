@@ -24,7 +24,7 @@ You can nativly use this package in all php projects.
 Adds base folder and crops folder and handle image from image path.
 
 If no crops folder is set, we crate crops in same folder as original.
-```
+```php
 $baseFolder = '/image';
 $cropsFolder = '/image/crops';
 $handler = CropHandler::create( $baseFolder, $cropsFolder );
@@ -41,7 +41,7 @@ $this->handler
 
 #### Adaptors
 You can use adapotors to handle image.
-```
+```php
 class Adaptor implements CropAdaptorInterface
 {
     public function transform( $input, $handler = null )
@@ -64,7 +64,7 @@ $this->handler
 ```
 #### ImageModifier
 The ```ImageModifier``` is the base image class for manipulating the images. 
-```
+```php
 use LasseHaslev\Image\Modifiers\ImageModifier;
 $modifier = ImageModifier::create( { absolute image path } );
 
@@ -87,7 +87,7 @@ $modifier->cropToFit( 300, 300 )
 
 #### ImageHandler
 The ImageHandler is for handling image and the crops. It extends from ```ImageModifier```.
-```
+```php
 use LasseHaslev\Image\Handlers\ImageHandler;
 $modifier = ImageHandler::create( $filepath );
 
