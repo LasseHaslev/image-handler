@@ -36,15 +36,13 @@ class ImageFilenameHelperTest extends PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    // public function is_setting_resize_flag_when_we_add_resize_boolean() {
-        // $path = ImageFilename::filename( $this->imagePath, [
-            // 'width'=>10,
-            // 'height'=>20,
-            // 'resize'=>true,
-        // ] );
-        // $this->assertEquals( $path, __DIR__ . '/../images/kitten1-10x20-resize.jpg' );
-    // }
-
-    // Resize option
+    public function is_setting_resize_flag_when_we_add_resize_boolean() {
+        $path = ImageFilename::filename( $this->imagePath, [
+            'width'=>10,
+            'height'=>20,
+            'resize'=>true,
+        ] );
+        $this->assertEquals( $path, __DIR__ . '/../images/kitten1-10x20-resize.jpg' );
+    }
 
 }

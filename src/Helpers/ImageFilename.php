@@ -34,8 +34,11 @@ class ImageFilename
      */
     public static function BuildPathOptions(array $options = [])
     {
-        $stringOptions = sprintf( '-%sx%s', $options['width'], $options['height'] );
-        return $stringOptions;
+        $sizeFlag = sprintf( '-%sx%s', $options['width'], $options['height'] );
+
+        $resizeFlag = $options[ 'resize' ] ? '-resize' : '';
+
+        return sprintf( '%s%s', $sizeFlag, $resizeFlag );
     }
 
     /**
