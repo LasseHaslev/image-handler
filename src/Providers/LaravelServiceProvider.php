@@ -33,7 +33,7 @@ class LaravelServiceProvider extends ServiceProvider
             return response( $file, 200 )
                 ->header( 'Content-Type', $handler->getMimeType() );
 
-        } )->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-[0-9a-zA-Z(),\-._]+)*\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$' );
+        } )->where( 'path', '(.+)-([0-9_]+)x([0-9_]+)(-resize)*(\-\[([\-\d\.]+)x([\-\d\.]+)\])*\.([A-z]+)$' );
     }
 
     /**
