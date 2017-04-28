@@ -4,3 +4,4 @@ vendor/
 tags
 images/
 yarn.lock
+compoer.lock
