@@ -39,25 +39,53 @@ class FilenameAdaptor implements CropAdaptorInterface
 
         $matches = [];
 
-        preg_match( '/(.+)-([0-9_]+)x([0-9_]+)([\-resize]*)(\..+)$/', basename( $filename ), $matches );
+        $regex = '/(.+)-([0-9_]+)x([0-9_]+)([\-resize]*)([\-\d\.\[\]x]*)\.([A-z]+)$/';
 
-        // var_dump($matches);
-        // exit;
-
-        return [
-            'name'=>$matches[ 1 ], // Name
-
-            'filepath'=>dirname( $filename ) == '.' ? $matches[ 1 ] . $matches[ 5 ] : dirname( $filename ) . '/' . $matches[ 1 ] . $matches[ 5 ], // Name
-
-            // If the value is _ we returns null
-            'width'=>$matches[ 2 ] != '_' ? $matches[ 2 ] : null, // Width
-            'height'=>$matches[ 3 ] != '_' ? $matches[ 3 ] : null, // Height
-
-            'resize'=>$matches[ 4 ] == '-resize', // Resize
-            'extension'=>$matches[ 5 ], // Extension
-            'filename'=>$matches[ 1 ] . $matches[ 5 ], // Extension
-            'fullFileName'=>dirname($filename) . '/' . $matches[ 1 ] . $matches[ 5 ], // Extension
+        $stringExamples = [
+            'images/kitten1-10x20-[-0.55678x0.12345].jpg',
+            'images/kitten1-10x20-resize.jpg',
+            'images/kitten1-10x20.jpg',
+            'images/kitten1-_x20.jpg',
+            'images/kitten1-20x_.jpg',
         ];
+        preg_match( $regex, $stringExamples[3], $matches );
+
+
+        // preg_match( $regex, $filename, $matches );
+
+        // Debuging
+        // if (!count($matches)) {
+            // var_dump($filename);
+            // var_dump($matches);
+            // exit;
+        // }
+
+        $filepath = $matches[1];
+        $width = $matches[2];
+        $height = $matches[3];
+        $resize = $matches[4];
+        $focusPoint = $matches[5];
+        $extension = $matches[6];
+
+        $originalFileName = sprintf( '%s/%s.%s', dirname( $filepath ), basename( $filepath ), $extension );
+        $dirname = dirname( $matches[0] );
+
+        $returnArray = [
+            'filepath'=>basename( $originalFileName ), // Name
+
+            'width'=>$width != '_' ? $width : null, // Width
+            'height'=>$height != '_' ? $height : null, // Height
+
+            'resize'=>$resize != '', // Resize
+        ];
+
+        // var_dump($returnArray);
+        // var_dump($matches);
+            // exit;
+
+        return $returnArray;
+
+
 
     }
 
