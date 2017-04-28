@@ -30,6 +30,30 @@ class FilenameAdaptor implements CropAdaptorInterface
 
 
     /**
+     * Test function for regex
+     *
+     * @return void
+     */
+    protected function regexTest()
+    {
+        $stringExamples = [
+            'images/kitten1-10x20.jpg',
+            'images/kitten1-_x20.jpg',
+            'images/kitten1-20x_.jpg',
+            'images/kitten1-10x20-resize.jpg',
+            'images/kitten1-10x20-[-0.55678x0.12345].jpg',
+        ];
+
+        foreach ($stringExamples as $value) {
+
+            var_dump( $value );
+            $this->getData( $value );
+        }
+        exit;
+    }
+
+
+    /**
      * Prepare what we want to do with the image
      *
      * @return Array
@@ -39,53 +63,31 @@ class FilenameAdaptor implements CropAdaptorInterface
 
         $matches = [];
 
-        $regex = '/(.+)-([0-9_]+)x([0-9_]+)([\-resize]*)([\-\d\.\[\]x]*)\.([A-z]+)$/';
+        $regex = '/(.+)-([0-9_]+)x([0-9_]+)(-resize)*(\-\[([\-\d\.]+)x([\-\d\.]+)\])*\.([A-z]+)$/';
 
-        $stringExamples = [
-            'images/kitten1-10x20-[-0.55678x0.12345].jpg',
-            'images/kitten1-10x20-resize.jpg',
-            'images/kitten1-10x20.jpg',
-            'images/kitten1-_x20.jpg',
-            'images/kitten1-20x_.jpg',
-        ];
-        preg_match( $regex, $stringExamples[3], $matches );
+        preg_match( $regex, $filename, $matches );
 
 
-        // preg_match( $regex, $filename, $matches );
+        $path = $matches[1];
+        $extension = $matches[8];
+        $imagePath = sprintf( '%s/%s.%s', dirname( $filename ), basename( $path ), $extension );
 
-        // Debuging
-        // if (!count($matches)) {
-            // var_dump($filename);
-            // var_dump($matches);
-            // exit;
-        // }
-
-        $filepath = $matches[1];
         $width = $matches[2];
         $height = $matches[3];
-        $resize = $matches[4];
-        $focusPoint = $matches[5];
-        $extension = $matches[6];
 
-        $originalFileName = sprintf( '%s/%s.%s', dirname( $filepath ), basename( $filepath ), $extension );
-        $dirname = dirname( $matches[0] );
+        $focusX = $matches[6];
+        $focusY = $matches[7];
 
-        $returnArray = [
-            'filepath'=>basename( $originalFileName ), // Name
+        return [
+            'filepath'=> $imagePath,
+            'resize'=> $matches[4] != '',
 
-            'width'=>$width != '_' ? $width : null, // Width
-            'height'=>$height != '_' ? $height : null, // Height
+            'width'=> $width != '_' ? $width : null,
+            'height'=> $height != '_' ? $height : null,
 
-            'resize'=>$resize != '', // Resize
+            'focusX' => $focusX != '' ? $focusX : null,
+            'focusY' => $focusY != '' ? $focusY : null,
         ];
-
-        // var_dump($returnArray);
-        // var_dump($matches);
-            // exit;
-
-        return $returnArray;
-
-
 
     }
 
