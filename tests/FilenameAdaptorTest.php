@@ -33,6 +33,7 @@ class FilenameAdaptorTest extends PHPUnit_Framework_TestCase
     // Set height
     // Set dynamic width
     // Set dynamic height
+    // resize
 
     /**
      * undocumented function
