@@ -26,4 +26,13 @@ class ImageFilenameHelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $path, __DIR__ . '/../images/kitten1-_x_.jpg' );
     }
 
+    /** @test */
+    public function add_width_or_height_to_filename() {
+        $path = ImageFilename::filename( $this->imagePath, ['width'=>10] );
+        $this->assertEquals( $path, __DIR__ . '/../images/kitten1-10x_.jpg' );
+
+        $path = ImageFilename::filename( $this->imagePath, ['height'=>20] );
+        $this->assertEquals( $path, __DIR__ . '/../images/kitten1-_x20.jpg' );
+    }
+
 }
