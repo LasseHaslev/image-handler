@@ -124,6 +124,24 @@ class FilenameAdaptorTest extends PHPUnit_Framework_TestCase
     }
 
     // Set focus point X
+    /** @test */
+    // public function can_crop_image_based_on_focus_point_x() {
+        // $width = 200;
+        // $height = 200;
+        // $filename = ImageFilename::filename( $this->imageName, [
+            // 'width'=>$width,
+            // 'height'=>$height,
+            // 'focusX'=>-1,
+        // ] );
+
+        // $this->handler
+            // ->handle( $filename )
+            // ->save( $filename );
+
+        // $size = getimagesize( $this->handler->getCropsFolder( $filename ) );
+        // $this->assertEquals($width, $size[0]);
+        // $this->assertEquals(125, $size[1]);
+    // }
     // Set focus point Y
     // Set focus point X and Y
 
