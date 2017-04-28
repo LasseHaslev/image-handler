@@ -34,11 +34,19 @@ class ImageFilename
      */
     public static function BuildPathOptions(array $options = [])
     {
+        // Size flag
         $sizeFlag = sprintf( '-%sx%s', $options['width'], $options['height'] );
 
+        // Resize flag
         $resizeFlag = $options[ 'resize' ] ? '-resize' : '';
 
-        return sprintf( '%s%s', $sizeFlag, $resizeFlag );
+        // focus point flag
+        $focusPointFlag = '';
+        if (!$options['resize'] && ( $options[ 'focusX' ] || $options['focusY'] )) {
+            $focusPointFlag = sprintf( '-[%sx%s]', $options['focusX'], $options['focusY'] );
+        }
+
+        return sprintf( '%s%s%s', $sizeFlag, $focusPointFlag, $resizeFlag );
     }
 
     /**
@@ -52,8 +60,8 @@ class ImageFilename
             'width'=>null,
             'height'=>null,
 
-            'focusX'=>null,
-            'focusY'=>null,
+            'focusX'=>0,
+            'focusY'=>0,
 
             'resize'=>false,
         ], $options );
@@ -61,8 +69,6 @@ class ImageFilename
         // Format to strings
         $options['width'] = $options['width'] ?: '_';
         $options['height'] = $options['height'] ?: '_';
-        $options['focusX'] = $options['focusX'] ?: '_';
-        $options['focusY'] = $options['focusY'] ?: '_';
 
         return $options;
     }
