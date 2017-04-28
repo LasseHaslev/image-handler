@@ -11,19 +11,40 @@ class ImageFilename
     // Help set width, height, focus point to path
 
     /**
-     * undocumented function
+     * Add string options to filename based on options
      *
-     * @return void
+     * @return string
      */
-    public static function filename( $filename, array $options = [])
+    public static function filename( $filePath, array $options = [])
     {
-        $pathInfo = pathinfo($filename);
+        extract( static::FilePathProperties($filePath) );
 
-        $basename = $pathInfo[ 'basename' ];
-        $dirname = $pathInfo[ 'dirname' ];
-        $extension = $pathInfo[ 'extension' ];
-        $filename = $pathInfo[ 'filename' ];
+        $options = static::ExtendOptions($options);
 
+        $stringOptions = static::BuildPathOptions($options);
+
+        return sprintf( '%s/%s%s.%s', $dirname, $filename, $stringOptions, $extension );;
+    }
+
+    /**
+     * Build path options based on options
+     * Example: -10x10-resize
+     *
+     * @return string
+     */
+    public static function BuildPathOptions(array $options = [])
+    {
+        $stringOptions = sprintf( '-%sx%s', $options['width'], $options['height'] );
+        return $stringOptions;
+    }
+
+    /**
+     * Extend and prepare options
+     *
+     * @return string
+     */
+    public static function ExtendOptions(array $options = [])
+    {
         $options = array_merge( [
             'width'=>null,
             'height'=>null,
@@ -31,14 +52,33 @@ class ImageFilename
             'focusX'=>null,
             'focusY'=>null,
 
-            'resize'=>null,
+            'resize'=>false,
         ], $options );
+
+        // Format to strings
         $options['width'] = $options['width'] ?: '_';
         $options['height'] = $options['height'] ?: '_';
         $options['focusX'] = $options['focusX'] ?: '_';
         $options['focusY'] = $options['focusY'] ?: '_';
 
-        return sprintf( '%s/%s-%sx%s.%s', $dirname, $filename, $options['width'], $options['height'], $extension );;
+        return $options;
+    }
+
+    /*
+     * Extract all file path properties from file path
+     *
+     * @return array
+     */
+    public static function FilePathProperties($filePath)
+    {
+        $pathInfo = pathinfo($filePath);
+
+        return [
+            'basename'  => $pathInfo[ 'basename' ],
+            'dirname'   => $pathInfo[ 'dirname' ],
+            'extension' => $pathInfo[ 'extension' ],
+            'filename'  => $pathInfo[ 'filename' ],
+        ];
     }
 
 }
